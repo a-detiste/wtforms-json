@@ -3,7 +3,6 @@ try:
 except:
     from collections import Mapping, MutableMapping
 
-import six
 from wtforms import Form
 try:
     from wtforms_sqlalchemy.fields import (
@@ -148,7 +147,7 @@ def patch_data(self):
     def is_required(field):
         return DataRequired in [v.__class__ for v in field.validators]
 
-    for name, f in six.iteritems(self._fields):
+    for name, f in self._fields.items():
         if f.is_missing:
             if is_optional(f):
                 continue
@@ -206,7 +205,7 @@ def monkey_patch_field_process(func):
                 except TypeError:
                     self.data = self.default
             else:
-                self.data = six.text_type(self.data)
+                self.data = str(self.data)
 
     return process
 
@@ -267,7 +266,7 @@ def field_list_is_missing(self):
 
 def monkey_patch_process_formdata(func):
     def process_formdata(self, valuelist):
-        valuelist = list(map(six.text_type, valuelist))
+        valuelist = list(map(str, valuelist))
 
         return func(self, valuelist)
     return process_formdata

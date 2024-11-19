@@ -1,4 +1,4 @@
-import six  # noqa
+PY3 = True
 from pytest import mark
 from wtforms import Form, IntegerField, SelectMultipleField, StringField
 try:
@@ -47,7 +47,7 @@ class FooForm(Form):
     )
 
 
-@mark.skipif('sa is None or six.PY3 or not HAS_SQLALCHEMY_SUPPORT')
+@mark.skipif('sa is None or PY3 or not HAS_SQLALCHEMY_SUPPORT')
 class TestQuerySelectField(object):
     def setup_method(self, method):
         self.Base = declarative_base()
